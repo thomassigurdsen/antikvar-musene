@@ -28,10 +28,17 @@ function raXHR(uri) {
 	xhrob.onreadystatechange = function (event) {
 		var xhttpr = event.target;
 		if (xhttpr.readyState === 4 && xhttpr.status === 200) {
-			document.getElementById("ra").innerHTML +=
-				"<pre><code>" +
-				xhttpr.responseText +
-				"</code></pre></br>";
+			var xhrjson = JSON.parse(xhttpr.responseText);
+			for (var arrcnt in xhrjson.features) {
+				for (var attribute in xhrjson.features[arrcnt].attributes) {
+					var str = attribute + ": " +
+						xhrjson.features[arrcnt].attributes[attribute] +
+						"</br>";
+					//console.log(str);
+					document.getElementById("ra").innerHTML += str;
+				}
+				document.getElementById("ra").innerHTML += "</br>";
+			}
 		}
 	};
 	xhrob.send();
