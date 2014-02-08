@@ -1,3 +1,14 @@
+function GET(ss) {
+	var search = window.location.search.substring(1);
+	var ssarr = search.split('&');
+	for (var scnt in ssarr) {
+		var tuple = ssarr[scnt].split('=');
+		if (tuple[0] == ss) {
+			return tuple;
+		}
+	}
+}
+
 function unimusXHR() {
 	var xhrob = new XMLHttpRequest();
 	xhrob.open('GET', "http://www.unimus.no/artefacts/khm/51981/", true);
