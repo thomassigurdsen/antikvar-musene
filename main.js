@@ -44,9 +44,16 @@ function raXHR(uri) {
 	xhrob.send();
 }
 
+function raSearch(searchString) {
+	var urls = {"husmann-enkeltminner": "http://husmann.ra.no/arcgis/rest/services/Husmann/MapServer/0/query?where=Lokalitetid+%3D+%2776722%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson",
+	"husmann-lokaliteter": "http://husmann.ra.no/arcgis/rest/services/Husmann/MapServer/1/query?where=Lokalitetid+%3D+%2776722%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returngeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson",
+	"husmann-sikringssone": "http://husmann.ra.no/arcgis/rest/services/Husmann/MapServer/2/query?where=Lokalitetid+%3D+%2776722%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returngeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson"};
+	raXHR(urls["husmann-enkeltminner"]);
+}
+
 function run() {
-	unimusXHR();
-	raXHR("http://husmann.ra.no/arcgis/rest/services/Husmann/MapServer/0/query?where=Lokalitetid+%3D+%2776722%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson");
-	raXHR("http://husmann.ra.no/arcgis/rest/services/Husmann/MapServer/1/query?where=Lokalitetid+%3D+%2776722%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returngeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson");
-	raXHR("http://husmann.ra.no/arcgis/rest/services/Husmann/MapServer/2/query?where=Lokalitetid+%3D+%2776722%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returngeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson");
+	//unimusXHR();
+	var ss  = GET("searchstring");
+	console.log(ss);
+	raSearch(ss);
 }
