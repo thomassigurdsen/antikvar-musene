@@ -9,14 +9,23 @@ function GET(ss) {
 	}
 }
 
-function unimusXHR() {
+function unimusXHR(uri) {
 	var xhrob = new XMLHttpRequest();
-	xhrob.open('GET', "http://www.unimus.no/artefacts/khm/51981/", true);
+	xhrob.open('GET', uri, true);
 	xhrob.onreadystatechange = function (event) {
 		var xhttpr = event.target;
 		if (xhttpr.readyState === 4 && xhttpr.status === 200) {
-			document.getElementById("unimus").innerHTML +=
-				xhttpr.responseText;
+			var xhrjson = JSON.parse(xhttpr.responseText);
+			for (var ent in xhrjson.MusitEntities.Entity) {
+				for (var attribute in xhrjson.MusitEntities.Entity[ent]) {
+					var str = attribute + ": " +
+						xhrjson.MusitEntities.Entity[ent][attribute] +
+						"</br>";
+					//console.log(str);
+					document.getElementById("unimus").innerHTML += str;
+				}
+				document.getElementById("unimus").innerHTML += "</br>";
+			}
 		}
 	};
 	xhrob.send();
@@ -46,14 +55,14 @@ function raXHR(uri) {
 
 function raSearch(searchString) {
 	var urls = {"husmann-enkeltminner": "http://husmann.ra.no/arcgis/rest/services/Husmann/MapServer/0/query?where=Lokalitetid+%3D+%2776722%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson",
-	"husmann-lokaliteter": "http://husmann.ra.no/arcgis/rest/services/Husmann/MapServer/1/query?where=Lokalitetid+%3D+%2776722%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returngeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson",
-	"husmann-sikringssone": "http://husmann.ra.no/arcgis/rest/services/Husmann/MapServer/2/query?where=Lokalitetid+%3D+%2776722%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returngeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson"};
-	raXHR(urls["husmann-enkeltminner"]);
+		"husmann-lokaliteter": "http://husmann.ra.no/arcgis/rest/services/Husmann/MapServer/1/query?where=Lokalitetid+%3D+%2776722%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returngeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson",
+		"husmann-sikringssone": "http://husmann.ra.no/arcgis/rest/services/Husmann/MapServer/2/query?where=Lokalitetid+%3D+%2776722%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returngeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson"};
+		raXHR(urls["husmann-enkeltminner"]);
 }
 
 function run() {
-	//unimusXHR();
+	unimusXHR("http://www.unimus.no/artefacts/search/?q=n%C3%B8stvedt&f=json&sort=period");
 	var ss  = GET("searchstring");
-	console.log(ss);
+	//console.log(ss);
 	raSearch(ss);
 }
